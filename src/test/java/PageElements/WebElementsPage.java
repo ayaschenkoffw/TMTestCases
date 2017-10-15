@@ -1,10 +1,16 @@
 package PageElements;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.List;
+import java.util.UUID;
 
 public class WebElementsPage {
     WebDriver driver;
@@ -24,11 +30,15 @@ public class WebElementsPage {
         return firstItemOnProductsList;
     }
 
-    //Add To Cart Button
-    @FindBy (xpath = ".//*[@id='checkout-item-page']/div[1]/div[3]")
+    //Add To Cart Button SUBMIT INSTEAD OF CLICK!!!!!!!!!!!!!!!!!!!!!!!!
+    @FindBy (xpath = ".//*[@id='checkout-item-page']/div/div[3]")
+
+    //xpath = "//*[@id='checkout-item-page']/div/div[4]")
+    //xpath = ".//*[@class = 'template-item-price']/div[4]
+    //(xpath = ".//*[@id='checkout-item-page']/div/div[3]")
     WebElement addToTheCartButton;
     public void clickOnAddToTheCartButton(){
-        addToTheCartButton.submit();
+        addToTheCartButton.click();
     }
     public WebElement elementaddToTheCartButton(){
         return addToTheCartButton;
@@ -50,7 +60,28 @@ public class WebElementsPage {
     @FindBy (id = "signin3-form-email")
     WebElement emailFieldonCheckOutForm;
     public void clickOnEmailForm(){
+
         emailFieldonCheckOutForm.click();
+    }
+    public WebElement elementEmailFieldonCheckOutForm(){
+
+        return emailFieldonCheckOutForm;
+    }
+
+    //Entering email address
+    public void enterValueToEmailField(String choosePropertyHere){
+        try{
+            String userEmail = new Users().pullOutOfPropertiesFile("emailaddress", choosePropertyHere);
+        emailFieldonCheckOutForm.sendKeys(UUID.randomUUID().toString() + userEmail);}
+        catch (Exception e){}
+    }
+
+    //Method to paste any value from any Property filed
+    public void takeValueFromPropFilesandPasteIt(String propKey, String propFile, WebElement elementToPastePropFileInfo){
+        try{String valuPulledFromFile = new Users().pullOutOfPropertiesFile(propKey, propFile);
+//            valuPulledFromFile.getBytes("UTF-8");
+           elementToPastePropFileInfo.sendKeys(valuPulledFromFile);}
+        catch (Exception e){}
     }
 
     //Continue button near email field
@@ -67,6 +98,10 @@ public class WebElementsPage {
         fullNameField.click();
     }
 
+    public WebElement elementFullNameField(){
+        return fullNameField;
+    }
+
     //Country Dropdown
     @FindBy (id="billinginfo3_form_countryiso2_chosen")
     WebElement countryDropdown;
@@ -74,12 +109,41 @@ public class WebElementsPage {
         countryDropdown.click();
     }
 
+    //Opened Dropdown
+    @FindBy (xpath = ".//*[@class = 'chosen-drop']")
+    WebElement openedDropDown;
+    public WebElement openedDropDown(){
+        return openedDropDown;
+    }
+
+    //Country Search Field
+    @FindBy (xpath = ".//*[@class = 'chosen-search']/input")
+    WebElement countrySearchField;
+    public WebElement elementCountrySearchField(){
+        return countrySearchField;}
+
+    //Phone DropDown
+    @FindBy (xpath = ".//*[@id = 'billinginfo3_form_phone_code_chosen']//*[@class = 'chosen-single']")
+    WebElement phoneCountrydropDown;
+    public void clickOnPhoneCountryDropDown(){phoneCountrydropDown.click();}
+
+    public WebElement elementPhoneCountryDropDown(){return phoneCountrydropDown;}
+
     //Phone Number
     @FindBy (id="billinginfo3-form-phone")
     WebElement phoneNumberField;
-    public void clickOnPhoneNumberField(){
-        phoneNumberField.click();
+    public WebElement elementPhoneNumberField(){return phoneNumberField;}
+
+    @FindBy (xpath = ".//*[@id = 'billinginfo3_form_phone_code_chosen']//*[@class = 'chosen-drop']//*[@class = 'chosen-search']/input")
+    WebElement searchFieldCountryPhoneField;
+    public WebElement elementSearchFieldCountryPhoneField(){
+        return searchFieldCountryPhoneField;
     }
+
+    @FindBy (xpath = ".//*[@id = 'billinginfo3_form_phone_code_chosen']//*[@class = 'chosen-drop']")
+    WebElement countrySearchPhoneDroDown;
+    public WebElement elementCountrySearchFieldPhoneDropdown(){
+        return countrySearchPhoneDroDown;}
 
     //Zip code field
     @FindBy (id="billinginfo3-form-postalcode")
@@ -106,7 +170,5 @@ public class WebElementsPage {
     public void openURL(String urlHere) {
         driver.get(urlHere);
     }
-
-
 
 }
