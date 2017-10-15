@@ -30,12 +30,8 @@ public class WebElementsPage {
         return firstItemOnProductsList;
     }
 
-    //Add To Cart Button SUBMIT INSTEAD OF CLICK!!!!!!!!!!!!!!!!!!!!!!!!
+    //Add To Cart Button
     @FindBy (xpath = ".//*[@id='checkout-item-page']/div/div[3]")
-
-    //xpath = "//*[@id='checkout-item-page']/div/div[4]")
-    //xpath = ".//*[@class = 'template-item-price']/div[4]
-    //(xpath = ".//*[@id='checkout-item-page']/div/div[3]")
     WebElement addToTheCartButton;
     public void clickOnAddToTheCartButton(){
         addToTheCartButton.click();
@@ -76,7 +72,7 @@ public class WebElementsPage {
         catch (Exception e){}
     }
 
-    //Method to paste any value from any Property filed
+    //Method to paste any value from any Property field
     public void takeValueFromPropFilesandPasteIt(String propKey, String propFile, WebElement elementToPastePropFileInfo){
         try{String valuPulledFromFile = new Users().pullOutOfPropertiesFile(propKey, propFile);
 //            valuPulledFromFile.getBytes("UTF-8");
@@ -84,20 +80,9 @@ public class WebElementsPage {
         catch (Exception e){}
     }
 
-    //Continue button near email field
-    @FindBy (id="signin3-new-customer")
-    WebElement continueButtonOnCheckOutForm;
-    public void clickOnContinueButtonOnCjeckOutForm(){
-        continueButtonOnCheckOutForm.click();
-    }
-
     //Full name field
     @FindBy (id="billinginfo3-form-fullname")
     WebElement fullNameField;
-    public void clickOnFullNameField(){
-        fullNameField.click();
-    }
-
     public WebElement elementFullNameField(){
         return fullNameField;
     }
@@ -140,11 +125,6 @@ public class WebElementsPage {
         return searchFieldCountryPhoneField;
     }
 
-    @FindBy (xpath = ".//*[@id = 'billinginfo3_form_phone_code_chosen']//*[@class = 'chosen-drop']")
-    WebElement countrySearchPhoneDroDown;
-    public WebElement elementCountrySearchFieldPhoneDropdown(){
-        return countrySearchPhoneDroDown;}
-
     //Zip code field
     @FindBy (id="billinginfo3-form-postalcode")
     WebElement zipCodeField;
@@ -152,12 +132,25 @@ public class WebElementsPage {
         zipCodeField.click();
     }
 
+    public WebElement elementZipCodeField(){return zipCodeField;}
+
     //State dropdown
     @FindBy (id="billinginfo3_form_stateiso2_chosen")
-    WebElement stateDrodown;
+    WebElement stateDropdown;
     public void clickOnStateDrodown(){
-        stateDrodown.click();
+        stateDropdown.click();
     }
+
+    @FindBy (xpath = ".//*[@id = 'billinginfo3_form_stateiso2_chosen']//*[@class = 'chosen-drop']")
+    WebElement openedSatetDropDown;
+    public WebElement elementOpenedStateDropdown(){return openedSatetDropDown;}
+
+    public WebElement elementStateDroDown(){return stateDropdown;}
+
+    @FindBy (xpath = ".//*[@id = 'billinginfo3_form_stateiso2_chosen']//*[@class = 'chosen-drop']//*[@class = 'chosen-search']/input")
+    WebElement stateSearchField;
+
+    public WebElement elementStateSearchField(){return stateSearchField;}
 
     //City field
     @FindBy (id="billinginfo3-form-cityname")
@@ -165,10 +158,25 @@ public class WebElementsPage {
     public void clickOnCityField(){
         cityField.click();
     }
-    //
 
+    public WebElement elementCityField(){return cityField;}
+
+    //Submit button
+    @FindBy (id = "billinginfo3-form-submit")
+    WebElement submitButton;
+    public void clickOnSubmitButton(){submitButton.click();}
+
+    //PayPall button
+    @FindBy (id = "checkout-payment-buy-PayPal")
+    WebElement payPallButton;
+    public WebElement elementPayPallButton(){return payPallButton;}
+
+
+    //Open URL
     public void openURL(String urlHere) {
         driver.get(urlHere);
     }
 
+    //Clear Field
+    public  void clearField(WebElement elementToBeCleared){elementToBeCleared.clear();}
 }

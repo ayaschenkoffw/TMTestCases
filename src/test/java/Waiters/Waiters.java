@@ -28,4 +28,9 @@ public class Waiters {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(elementLocator));
     }
+
+    public void waitForElementToBecomeFullyLoaded(WebElement elementLocator){
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.attributeContains(elementLocator,"class","chosen-disabled"));
+    }
 }

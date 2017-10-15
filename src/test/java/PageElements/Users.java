@@ -15,20 +15,9 @@ import java.util.UUID;
 
 public class Users {
 
-    public String firstUserUA(String propertyKey) throws Exception {
-        FileInputStream fileInputStream;
-        Properties properties = new Properties();
-
-            fileInputStream = new FileInputStream("src/test/resources/ukraineUser.properties");
-            properties.load(fileInputStream);
-            String propertyValue = properties.getProperty(propertyKey);
-            return propertyValue;
-
-    }
     public String pullOutOfPropertiesFile(String propertyKey, String choosePropFile) throws Exception {
         FileInputStream fileInputStream;
         Properties properties = new Properties();
-//        fileInputStream = new FileInputStream("src/test/resources/usaUser.properties");
         fileInputStream = new FileInputStream("src/test/resources/"+choosePropFile);
         properties.load(new InputStreamReader(fileInputStream, "UTF-8"));
         String propertyValue = properties.getProperty(propertyKey);
