@@ -33,4 +33,8 @@ public class Waiters {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.attributeContains(elementLocator,"class","chosen-disabled"));
     }
+    public void waitForTextOnPage(String textOnPage, WebElement elementWithNeededText){
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.textToBePresentInElement(elementWithNeededText, textOnPage));
+    }
 }

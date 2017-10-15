@@ -10,6 +10,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,8 +21,10 @@ import PageElements.Users;
 import javax.jws.soap.SOAPBinding;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.security.Key;
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -47,9 +50,10 @@ public class UserRegistrationTestCase {
 
         //Wait and click on Add To Cart button
         actions.moveToElement(clickOnElement.elementaddToTheCartButton());
-        wait.waitForElementToBecomeClickable(clickOnElement.elementaddToTheCartButton());
+//        wait.waitForElementToBecomeClickable(clickOnElement.elementaddToTheCartButton());
 //        wait.waitForElementToShowUp(clickOnElement.elementaddToTheCartButton());
 //        wait.waitForElementToBecomeFullyLoaded(clickOnElement.elementaddToTheCartButton());
+//        wait.waitForTextOnPage("Get It Now & You’ll Love It!", clickOnElement.elementaddToTheCartButton());
         Thread.sleep(5000);
         clickOnElement.clickOnAddToTheCartButton();
 
@@ -135,7 +139,7 @@ public class UserRegistrationTestCase {
         clickOnElement.takeValueFromPropFilesandPasteIt("phone", "ukraineUser.properties", clickOnElement.elementPhoneNumberField());
 
         //Entering Zip code
-        clickOnElement.takeValueFromPropFilesandPasteIt("zipcode", "usaUser.properties", clickOnElement.elementZipCodeField());
+        clickOnElement.takeValueFromPropFilesandPasteIt("zipcode", "ukraineUser.properties", clickOnElement.elementZipCodeField());
         clickOnElement.elementZipCodeField().sendKeys(Keys.ENTER);
 
 //        //Entering State
@@ -146,8 +150,9 @@ public class UserRegistrationTestCase {
 ////        Thread.sleep(5000);
 //
 //        //Entering City
+//        actions.click(clickOnElement.elementCityField());
 //        clickOnElement.clearField(clickOnElement.elementCityField());
-//        clickOnElement.takeValueFromPropFilesandPasteIt("city", "usaUser.properties", clickOnElement.elementCityField());
+//        clickOnElement.takeValueFromPropFilesandPasteIt("city", "ukraineUser.properties", clickOnElement.elementCityField());
 
         //Click on Submit button and Waiting for BillingBlock
         clickOnElement.clickOnSubmitButton();
@@ -155,10 +160,17 @@ public class UserRegistrationTestCase {
 
     }
     @AfterMethod
-    void takingScreenshot() throws Exception {
-        File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        String screenShotName = UUID.randomUUID().toString();
-        FileUtils.copyFile(screenShotFile, new File("src/test/resources/screenshots/"+screenShotName+".png"));
-
+//    void takingScreenshot() throws Exception {
+//        File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+//        String screenShotName = UUID.randomUUID().toString();
+//        FileUtils.copyFile(screenShotFile, new File("src/test/resources/screenshots/"+screenShotName+".png"));
+//
+//    }
+    public void takeScreenShotOnFailure(ITestResult testResult) throws IOException {
+        if (testResult.getStatus() == ITestResult.FAILURE) {
+            File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(scrFile, new File("src/test/resources/screenshots/" + testResult.getName() + "-"
+                    + Arrays.toString(testResult.getParameters()) +  ".jpg"));
+        }
     }
 }
