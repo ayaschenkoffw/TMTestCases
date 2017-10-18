@@ -1,7 +1,6 @@
 package TestCases;
 
-import PageElements.Users;
-import PageElements.WebElementsPage;
+import PageElements.*;
 import Waiters.Waiters;
 import net.sourceforge.htmlunit.corejs.javascript.tools.debugger.Dim;
 import org.apache.commons.io.FileUtils;
@@ -14,7 +13,6 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import PageElements.WebElementsPage;
 import org.openqa.selenium.interactions.Actions;
 import PageElements.Users;
 
@@ -38,61 +36,65 @@ public class UserRegistrationTestCase {
         driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.chrome());
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().setSize(new org.openqa.selenium.Dimension(1900, 1000));
-        WebElementsPage openURL = new WebElementsPage(driver);
-        WebElementsPage clickOnElement = new WebElementsPage(driver);
+        Method method = new Method(driver);
+        HomePage homePageElement = new HomePage(driver);
+        CheckOutPage checkOutPageElement = new CheckOutPage(driver);
+        RegistrationPage regPageElement = new RegistrationPage(driver);
         Waiters wait = new Waiters(driver);
-        openURL.openURL("https://www.templatemonster.com");
+        method.openURL("https://www.templatemonster.com");
         Actions actions = new Actions(driver);
 
         //Wait and click on first item in Products List
-        wait.waitForElementToShowUp(clickOnElement.elementFirstItemOnProductsList());
-        clickOnElement.clickOnFirstProductInTheList();
+        wait.waitForElementToShowUp(homePageElement.elementFirstItemOnProductsList());
+        homePageElement.clickOnFirstProductInTheList();
 
         //Wait and click on Add To Cart button
-        actions.moveToElement(clickOnElement.elementaddToTheCartButton());
-//        wait.waitForElementToBecomeClickable(clickOnElement.elementaddToTheCartButton());
-//        wait.waitForElementToShowUp(clickOnElement.elementaddToTheCartButton());
-//        wait.waitForElementToBecomeFullyLoaded(clickOnElement.elementaddToTheCartButton());
-//        wait.waitForTextOnPage("Get It Now & You’ll Love It!", clickOnElement.elementaddToTheCartButton());
+        wait.waitForElementToShowUp(homePageElement.elementFavoriteIcon());
         Thread.sleep(5000);
-        clickOnElement.clickOnAddToTheCartButton();
+        actions.moveToElement(checkOutPageElement.elementAddToTheCartButton());
+        checkOutPageElement.clickOnAddToTheCartButton();
 
         //Wait and click on Check Out Now button
-        wait.waitForElementToShowUp(clickOnElement.elementcheckOutNowButton());
+        wait.waitForElementToShowUp(checkOutPageElement.elementCheckOutNowButton());
         Thread.sleep(5000);
-        clickOnElement.clickonCheckOutButton();
+        checkOutPageElement.clickonCheckOutButton();
 
     }
 
     @Test (description = "User1")
     void User1RegistrationTestCase() throws Exception{
-        WebElementsPage clickOnElement = new WebElementsPage(driver);
         Waiters wait = new Waiters(driver);
         Actions actions = new Actions(driver);
+        Method method = new Method(driver);
+        HomePage homePageElement = new HomePage(driver);
+        CheckOutPage checkOutPageElement = new CheckOutPage(driver);
+        RegistrationPage regPageElement = new RegistrationPage(driver);
+        Users userUSA = new Users();
+        userUSA.setValue("src/test/resources/usaUser.properties");
 
         //Waiting for e-mail filed and entering Email
-        wait.waitForElementToBecomeClickable(clickOnElement.elementEmailFieldonCheckOutForm());
-        clickOnElement.enterValueToEmailField("usaUser.properties");
+        wait.waitForElementToBecomeClickable(regPageElement.elementEmailFieldonCheckOutForm());
+        regPageElement.elementEmailFieldonCheckOutForm().sendKeys(userUSA.getEmailaddress());
 
         //Waiting for First name filed and entering first name
-        wait.waitForElementToShowUp(clickOnElement.elementFullNameField());
-        clickOnElement.takeValueFromPropFilesandPasteIt("username", "usaUser.properties", clickOnElement.elementFullNameField());
+        wait.waitForElementToShowUp(regPageElement.elementFullNameField());
+        regPageElement.elementFullNameField().sendKeys(userUSA.getName());
 
         //Click on Country dropdown and Search for needed country
-        clickOnElement.clickOnCountryDropdown();
-        wait.waitForElementToBecomeClickable(clickOnElement.openedDropDown());
-        clickOnElement.takeValueFromPropFilesandPasteIt("country", "usaUser.properties", clickOnElement.elementCountrySearchField());
-        clickOnElement.elementCountrySearchField().sendKeys(Keys.ENTER);
+        regPageElement.clickOnCountryDropdown();
+        wait.waitForElementToBecomeClickable(regPageElement.openedDropDown());
+        regPageElement.elementCountrySearchField().sendKeys(userUSA.getCountry());
+        regPageElement.elementCountrySearchField().sendKeys(Keys.ENTER);
 
         //Entering phone number
-        clickOnElement.clickOnPhoneCountryDropDown();
-        wait.waitForElementToBecomeClickable(clickOnElement.elementPhoneCountryDropDown());
-        clickOnElement.takeValueFromPropFilesandPasteIt("country", "usaUser.properties", clickOnElement.elementSearchFieldCountryPhoneField());
-        clickOnElement.elementSearchFieldCountryPhoneField().sendKeys(Keys.ENTER);
-        clickOnElement.takeValueFromPropFilesandPasteIt("phone", "usaUser.properties", clickOnElement.elementPhoneNumberField());
+        regPageElement.clickOnPhoneCountryDropDown();
+        wait.waitForElementToBecomeClickable(regPageElement.elementPhoneCountryDropDown());
+        regPageElement.elementSearchFieldCountryPhoneField().sendKeys(userUSA.getCountry());
+        regPageElement.elementSearchFieldCountryPhoneField().sendKeys(Keys.ENTER);
+        regPageElement.elementPhoneNumberField().sendKeys(userUSA.getPhone());
 
         //Entering Zip code
-        clickOnElement.takeValueFromPropFilesandPasteIt("zipcode", "usaUser.properties", clickOnElement.elementZipCodeField());
+        regPageElement.elementZipCodeField().sendKeys(userUSA.getZipcode());
 
 //        //Entering State
 //        clickOnElement.clickOnStateDrodown();
@@ -106,66 +108,66 @@ public class UserRegistrationTestCase {
 //        clickOnElement.takeValueFromPropFilesandPasteIt("city", "usaUser.properties", clickOnElement.elementCityField());
 
         //Click on Submit button and Waiting for BillingBlock
-        clickOnElement.clickOnSubmitButton();
-        wait.waitForElementToShowUp(clickOnElement.elementPayPallButton());
+        regPageElement.clickOnSubmitButton();
+        wait.waitForElementToShowUp(regPageElement.elementPayPallButton());
+        Assert.assertNotNull(regPageElement.elementPayPallButton());
 
 
     }
     @Test (description = "User2")
     void User2RegistrationTestCase() throws Exception{
-        WebElementsPage clickOnElement = new WebElementsPage(driver);
         Waiters wait = new Waiters(driver);
         Actions actions = new Actions(driver);
+        Method method = new Method(driver);
+        HomePage homePageElement = new HomePage(driver);
+        CheckOutPage checkOutPageElement = new CheckOutPage(driver);
+        RegistrationPage regPageElement = new RegistrationPage(driver);
+        Users userUkraine = new Users();
+        userUkraine.setValue("src/test/resources/ukraineUser.properties");
 
         //Waiting for e-mail filed and entering Email
-        wait.waitForElementToBecomeClickable(clickOnElement.elementEmailFieldonCheckOutForm());
-        clickOnElement.enterValueToEmailField("ukraineUser.properties");
+        wait.waitForElementToBecomeClickable(regPageElement.elementEmailFieldonCheckOutForm());
+        regPageElement.elementEmailFieldonCheckOutForm().sendKeys(userUkraine.getEmailaddress());
 
         //Waiting for First name filed and entering first name
-        wait.waitForElementToShowUp(clickOnElement.elementFullNameField());
-        clickOnElement.takeValueFromPropFilesandPasteIt("username", "ukraineUser.properties", clickOnElement.elementFullNameField());
+        wait.waitForElementToShowUp(regPageElement.elementFullNameField());
+        regPageElement.elementFullNameField().sendKeys(userUkraine.getName());
 
         //Click on Country dropdown and Search for needed country
-        clickOnElement.clickOnCountryDropdown();
-        wait.waitForElementToBecomeClickable(clickOnElement.openedDropDown());
-        clickOnElement.takeValueFromPropFilesandPasteIt("country", "ukraineUser.properties", clickOnElement.elementCountrySearchField());
-        clickOnElement.elementCountrySearchField().sendKeys(Keys.ENTER);
+        regPageElement.clickOnCountryDropdown();
+        wait.waitForElementToBecomeClickable(regPageElement.openedDropDown());
+        regPageElement.elementCountrySearchField().sendKeys(userUkraine.getCountry());
+        regPageElement.elementCountrySearchField().sendKeys(Keys.ENTER);
 
         //Entering phone number
-        clickOnElement.clickOnPhoneCountryDropDown();
-        wait.waitForElementToBecomeClickable(clickOnElement.elementPhoneCountryDropDown());
-        clickOnElement.takeValueFromPropFilesandPasteIt("country", "ukraineUser.properties", clickOnElement.elementSearchFieldCountryPhoneField());
-        clickOnElement.elementSearchFieldCountryPhoneField().sendKeys(Keys.ENTER);
-        clickOnElement.takeValueFromPropFilesandPasteIt("phone", "ukraineUser.properties", clickOnElement.elementPhoneNumberField());
+        regPageElement.clickOnPhoneCountryDropDown();
+        wait.waitForElementToBecomeClickable(regPageElement.elementPhoneCountryDropDown());
+        regPageElement.elementSearchFieldCountryPhoneField().sendKeys(userUkraine.getCountry());
+        regPageElement.elementSearchFieldCountryPhoneField().sendKeys(Keys.ENTER);
+        regPageElement.elementPhoneNumberField().sendKeys(userUkraine.getPhone());
 
         //Entering Zip code
-        clickOnElement.takeValueFromPropFilesandPasteIt("zipcode", "ukraineUser.properties", clickOnElement.elementZipCodeField());
-        clickOnElement.elementZipCodeField().sendKeys(Keys.ENTER);
+        regPageElement.elementZipCodeField().sendKeys(userUkraine.getZipcode());
 
 //        //Entering State
 //        clickOnElement.clickOnStateDrodown();
-//        wait.waitForElementToShowUp(clickOnElement.elementOpenedStateDropdown());
-//        clickOnElement.takeValueFromPropFilesandPasteIt("state", "ukraineUser.properties", clickOnElement.elementStateSearchField());
+//        wait.waitForElementToShowUp(clickOnElement.elementOpenedStateDropdown()); ///!!!! this one is correct
+//        clickOnElement.takeValueFromPropFilesandPasteIt("state", "usaUser.properties", clickOnElement.elementStateSearchField());
 //        clickOnElement.elementStateSearchField().sendKeys(Keys.ENTER);
 ////        Thread.sleep(5000);
 //
 //        //Entering City
-//        actions.click(clickOnElement.elementCityField());
 //        clickOnElement.clearField(clickOnElement.elementCityField());
-//        clickOnElement.takeValueFromPropFilesandPasteIt("city", "ukraineUser.properties", clickOnElement.elementCityField());
+//        clickOnElement.takeValueFromPropFilesandPasteIt("city", "usaUser.properties", clickOnElement.elementCityField());
 
         //Click on Submit button and Waiting for BillingBlock
-        clickOnElement.clickOnSubmitButton();
-        wait.waitForElementToShowUp(clickOnElement.elementPayPallButton());
+        regPageElement.clickOnSubmitButton();
+        wait.waitForElementToShowUp(regPageElement.elementPayPallButton());
+        Assert.assertNotNull(regPageElement.elementPayPallButton());
+
 
     }
     @AfterMethod
-//    void takingScreenshot() throws Exception {
-//        File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-//        String screenShotName = UUID.randomUUID().toString();
-//        FileUtils.copyFile(screenShotFile, new File("src/test/resources/screenshots/"+screenShotName+".png"));
-//
-//    }
     public void takeScreenShotOnFailure(ITestResult testResult) throws IOException {
         if (testResult.getStatus() == ITestResult.FAILURE) {
             File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);

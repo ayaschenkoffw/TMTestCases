@@ -1,83 +1,27 @@
 package PageElements;
 
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.List;
 import java.util.UUID;
 
-public class WebElementsPage {
+public class RegistrationPage {
     WebDriver driver;
 
-    public WebElementsPage (WebDriver driver) throws Exception{
+    public RegistrationPage (WebDriver driver) throws Exception{
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-    //Locators
-    //First item in Products greed
-    @FindBy (xpath = ".//*[@id='products']//li[1]")
-    WebElement firstItemOnProductsList;
-    public void clickOnFirstProductInTheList(){
-        firstItemOnProductsList.click();
-    }
-    public WebElement elementFirstItemOnProductsList(){
-        return firstItemOnProductsList;
-    }
-
-    //Add To Cart Button
-    @FindBy (xpath = ".//*[@id='checkout-item-page']/div/div[3]")
-    WebElement addToTheCartButton;
-    public void clickOnAddToTheCartButton(){
-        addToTheCartButton.click();
-    }
-    public WebElement elementaddToTheCartButton(){
-        return addToTheCartButton;
-    }
-
-    //Checkout Button
-    @FindBy (id = "cart-summary-checkout")
-    public WebElement checkOutNowButton;
-    public void clickonCheckOutButton(){
-        checkOutNowButton.click();
-    }
-    public WebElement elementcheckOutNowButton(){
-        return checkOutNowButton;
-    }
-
-
 
     //Email For on Checkout form
-    @FindBy (id = "signin3-form-email")
+    @FindBy(id = "signin3-form-email")
     WebElement emailFieldonCheckOutForm;
-    public void clickOnEmailForm(){
 
-        emailFieldonCheckOutForm.click();
-    }
     public WebElement elementEmailFieldonCheckOutForm(){
 
         return emailFieldonCheckOutForm;
-    }
-
-    //Entering email address
-    public void enterValueToEmailField(String choosePropertyHere){
-        try{
-            String userEmail = new Users().pullOutOfPropertiesFile("emailaddress", choosePropertyHere);
-        emailFieldonCheckOutForm.sendKeys(UUID.randomUUID().toString() + userEmail);}
-        catch (Exception e){}
-    }
-
-    //Method to paste any value from any Property field
-    public void takeValueFromPropFilesandPasteIt(String propKey, String propFile, WebElement elementToPastePropFileInfo){
-        try{String valuPulledFromFile = new Users().pullOutOfPropertiesFile(propKey, propFile);
-//            valuPulledFromFile.getBytes("UTF-8");
-           elementToPastePropFileInfo.sendKeys(valuPulledFromFile);}
-        catch (Exception e){}
     }
 
     //Full name field
@@ -170,13 +114,4 @@ public class WebElementsPage {
     @FindBy (id = "checkout-payment-buy-PayPal")
     WebElement payPallButton;
     public WebElement elementPayPallButton(){return payPallButton;}
-
-
-    //Open URL
-    public void openURL(String urlHere) {
-        driver.get(urlHere);
-    }
-
-    //Clear Field
-    public  void clearField(WebElement elementToBeCleared){elementToBeCleared.clear();}
 }
