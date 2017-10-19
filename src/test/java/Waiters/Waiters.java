@@ -1,6 +1,5 @@
 package Waiters;
 
-import PageElements.WebElementsPage;
 import com.google.common.collect.Lists;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,7 +19,7 @@ public class Waiters {
     }
 
     public void waitForElementToShowUp(WebElement elementLocator){
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebDriverWait wait = new WebDriverWait(driver, 20);
         wait.until(ExpectedConditions.visibilityOf(elementLocator));
     }
 
@@ -28,4 +27,14 @@ public class Waiters {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(elementLocator));
     }
+    public void waitForCookie(String cookieName) {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until((WebDriver webdriver) -> webdriver.manage().getCookieNamed(cookieName) != null);
+    }
+
+    public void waitForNeededLangInURL(String whatShouldBeInURL) {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until((WebDriver webdriver) -> webdriver.getCurrentUrl().contains(whatShouldBeInURL));
+    }
+
 }

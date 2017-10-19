@@ -1,9 +1,11 @@
 package PageElements;
 
+import Waiters.Waiters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CheckOutPage {
     WebDriver driver;
@@ -26,10 +28,12 @@ public class CheckOutPage {
     //Checkout Button
     @FindBy (id = "cart-summary-checkout")
     public WebElement checkOutNowButton;
+
     public void clickonCheckOutButton(){
         checkOutNowButton.click();
     }
     public WebElement elementCheckOutNowButton(){
         return checkOutNowButton;
     }
+
 }

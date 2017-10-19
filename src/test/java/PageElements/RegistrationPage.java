@@ -1,9 +1,12 @@
 package PageElements;
 
+import Waiters.Waiters;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import java.util.UUID;
 
@@ -114,4 +117,27 @@ public class RegistrationPage {
     @FindBy (id = "checkout-payment-buy-PayPal")
     WebElement payPallButton;
     public WebElement elementPayPallButton(){return payPallButton;}
+
+    public void registerNewUser(Users users){
+        Waiters wait = new Waiters(driver);
+        wait.waitForElementToBecomeClickable(elementEmailFieldonCheckOutForm());
+        emailFieldonCheckOutForm.sendKeys(users.getEmailaddress());
+        wait.waitForElementToShowUp(elementFullNameField());
+        fullNameField.sendKeys(users.getName());
+        clickOnCountryDropdown();
+        wait.waitForElementToBecomeClickable(openedDropDown());
+        elementCountrySearchField().sendKeys(users.getCountry());
+        elementCountrySearchField().sendKeys(Keys.ENTER);
+        clickOnPhoneCountryDropDown();
+        wait.waitForElementToBecomeClickable(elementPhoneCountryDropDown());
+        elementSearchFieldCountryPhoneField().sendKeys(users.getCountry());
+        elementSearchFieldCountryPhoneField().sendKeys(Keys.ENTER);
+        elementPhoneNumberField().sendKeys(users.getPhone());
+        elementZipCodeField().sendKeys(users.getZipcode());
+        clickOnSubmitButton();
+        wait.waitForElementToShowUp(elementPayPallButton());
+        Assert.assertNotNull(elementPayPallButton());
+
+
+    }
 }
