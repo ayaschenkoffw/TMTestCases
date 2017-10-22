@@ -27,6 +27,12 @@ public class Waiters {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(elementLocator));
     }
+
+    public void waitForElementToDisappear(WebElement elementLocator){
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.invisibilityOf(elementLocator));
+    }
+
     public void waitForCookie(String cookieName) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until((WebDriver webdriver) -> webdriver.manage().getCookieNamed(cookieName) != null);

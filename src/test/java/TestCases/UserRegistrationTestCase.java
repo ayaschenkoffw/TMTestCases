@@ -56,19 +56,20 @@ public class UserRegistrationTestCase {
         Actions actions = new Actions(driver);
 
         //Wait and click on first item in Products List
+        wait.waitForElementToDisappear(homePageElement.elementBestsellersBlock());
+//        wait.waitForElementToShowUp(homePageElement.elementFirstItemOnProductsList());
         wait.waitForElementToShowUp(homePageElement.elementFirstItemOnProductsList());
+        actions.moveToElement(homePageElement.elementFirstItemOnProductsList());
         homePageElement.clickOnFirstProductInTheList();
 
         //Wait and click on Add To Cart button
-        wait.waitForElementToShowUp(homePageElement.elementFavoriteIcon());
-        Thread.sleep(5000);
+        wait.waitForElementToShowUp(homePageElement.getTemaplatePriceIcon());
         actions.moveToElement(checkOutPageElement.elementAddToTheCartButton());
         checkOutPageElement.clickOnAddToTheCartButton();
 
         //Wait and click on Check Out Now button
         wait.waitForElementToShowUp(checkOutPageElement.elementCheckOutNowButton());
         wait.waitForElementToShowUp(checkOutPageElement.elementPriceTag());
-//        Thread.sleep(5000);
         checkOutPageElement.clickonCheckOutButton();
 
     }
