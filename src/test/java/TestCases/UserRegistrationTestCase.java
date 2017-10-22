@@ -12,6 +12,7 @@ import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.openqa.selenium.interactions.Actions;
 import PageElements.Users;
@@ -30,12 +31,23 @@ public class UserRegistrationTestCase {
     WebDriver driver;
     Waiters wait;
 
+    @Parameters({"browserType"})
+    @BeforeMethod(alwaysRun = true)
+    public void addingTemplateToTheCart(String browserType) throws Exception {
+//        Service addingTemplateToTheCart = new Service(driver);
+//        addingTemplateToTheCart.addingItemToTheCart(browserType);
 
-    @BeforeMethod
-    void addingTemplateToTheCart() throws Exception {
-        driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.chrome());
+        if(browserType.equalsIgnoreCase("firefox")) {
+            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.firefox());
+        }
+        else if (browserType.equalsIgnoreCase("chrome")){
+            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.chrome());
+        }
+        else {
+            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.chrome());
+        }
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.manage().window().setSize(new org.openqa.selenium.Dimension(1900, 1000));
+        driver.manage().window().setSize(new org.openqa.selenium.Dimension(1900, 1080));
         Service openURL = new Service(driver);
         HomePage homePageElement = new HomePage(driver);
         CheckOutPage checkOutPageElement = new CheckOutPage(driver);
@@ -55,13 +67,14 @@ public class UserRegistrationTestCase {
 
         //Wait and click on Check Out Now button
         wait.waitForElementToShowUp(checkOutPageElement.elementCheckOutNowButton());
-        Thread.sleep(5000);
+        wait.waitForElementToShowUp(checkOutPageElement.elementPriceTag());
+//        Thread.sleep(5000);
         checkOutPageElement.clickonCheckOutButton();
 
     }
 
-    @Test (dataProvider = "pathList",dataProviderClass = DataProvider.class)
-    void UserRegistrationTestCase(String pathPicker) throws Exception {
+    @Test (groups = {"userRegTestCase"}, dataProvider = "pathList",dataProviderClass = DataProvider.class)
+    public void UserRegistrationTestCase(String pathPicker) throws Exception {
 
         RegistrationPage regPageElement = new RegistrationPage(driver);
         Users newUser = new Users(pathPicker);

@@ -8,7 +8,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.net.URL;
@@ -19,21 +21,37 @@ public class CookieVerificationTestCase {
     WebDriverWait wait;
     WebElement cookie;
 
+    @Parameters({"browserType"})
+    @BeforeMethod(alwaysRun = true)
+    void firstOfAll(String browserType) throws Exception{
 
-    @BeforeMethod
-    void firstOfAll() throws Exception{
+        Service test = new Service(driver);
+        test.addingItemToTheCart(browserType);
 
-        driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.chrome());
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-        Service openURL = new Service(driver);
-        openURL.openURL("https://www.templatemonster.com");
+//        if(browserType.equalsIgnoreCase("firefox")) {
+//            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.firefox());
+//        }
+//        else if (browserType.equalsIgnoreCase("chrome")){
+//            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.chrome());
+//        }
+//        else {
+//            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.chrome());
+//        }
+//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+//
+//        Service openURL = new Service(driver);
+//        openURL.openURL("https://www.templatemonster.com");
     }
 
-    @Test
+    @Test(groups = {"userRegTestCase"})
     void checkCookie()throws Exception{
         CookieChecker cookieTest = new CookieChecker(driver);
         cookieTest.cookieChecker("aff","TM");
+    }
+    @AfterMethod
+    void closeBrowser()throws Exception{
+        Service closeBrowser = new Service(driver);
+        closeBrowser.closeBrowserWindow();
     }
 
 }

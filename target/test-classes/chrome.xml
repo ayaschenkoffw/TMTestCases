@@ -10,9 +10,9 @@
         </groups>
         <classes>
             <class name="TestCases.UserRegistrationTestCase"/>
-            <class name="TestCases.LoginViaFBTestCase"/>
-            <class name="TestCases.LanguageDropDownTestCase"/>
-            <class name="TestCases.CookieVerificationTestCase"/>
+            <!--<class name="TestCases.LoginViaFBTestCase"/>-->
+            <!--<class name="TestCases.LanguageDropDownTestCase"/>-->
+            <!--<class name="TestCases.CookieVerificationTestCase"/>-->
         </classes>
     </test>
 

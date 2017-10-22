@@ -36,4 +36,9 @@ public class CheckOutPage {
         return checkOutNowButton;
     }
 
+    //Price tag
+    @FindBy (xpath = ".//*[@class = 'total-price']//*[@class = 'price-block']")
+    WebElement priceTag;
+    public WebElement elementPriceTag(){return priceTag;}
+
 }

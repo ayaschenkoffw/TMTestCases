@@ -1,12 +1,19 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Suite1" verbose="1" >
+<suite name="TMTestCases" verbose="1" >
+    <parameter name="browserType" value="chrome"/>
     <test name="UserRegistration" >
-
-    </test>
-
-    <test name="userRegistration">
-
+        <groups>
+            <run>
+                <include name="userRegTestCase"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="TestCases.UserRegistrationTestCase"/>
+            <class name="TestCases.LoginViaFBTestCase"/>
+            <class name="TestCases.LanguageDropDownTestCase"/>
+            <class name="TestCases.CookieVerificationTestCase"/>
+        </classes>
     </test>
 
 </suite>
